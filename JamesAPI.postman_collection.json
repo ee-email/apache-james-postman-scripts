@@ -1,0 +1,1614 @@
+{
+	"info": {
+		"_postman_id": "16e3c189-d061-4aed-8beb-e8088298b791",
+		"name": "James User API - PUBLIC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "_healtcheck",
+			"item": [
+				{
+					"name": "James healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32ae811f-b10f-40e1-a5cb-909c6b2e2204",
+								"exec": [
+									"pm.test(\"Status code\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Nothing unhealthy\", function () ",
+									"{",
+									"    pm.expect(pm.response.text()).to.not.include(\"unhealthy\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/healthcheck",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Domain API",
+			"item": [
+				{
+					"name": "Domain - create domain1 (we call it main domain later)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0d37cf47-00b9-46f8-9dfe-0273cda4220c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1e79dd26-1763-4451-abe0-91a5739af88d",
+								"exec": [
+									"tests[\"Expected status code\"] = responseCode.code === 204;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - create domain2 (we'll call it alias domain later)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e097b430-d97f-4223-b490-168d8e435fbc",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "825e9900-defe-4665-a44d-4e2972c48953",
+								"exec": [
+									"tests[\"Expected status code\"] = responseCode.code === 204;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/alias.{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"alias.{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - Check if domain1 has been created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7c04666c-c065-426d-be0e-ac9b5509b90b",
+								"exec": [
+									"if (responseCode.code === 204)",
+									"{",
+									"    console.log(\"Domain '\" + postman.getEnvironmentVariable(\"domain\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"Domain '\" + postman.getEnvironmentVariable(\"domain\") + \"' DOES NOT exist\");",
+									"}",
+									"",
+									"pm.test(\"Status code\", function () {",
+									"  pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - Check if domain2 has been created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "329fe3ff-5c94-44fb-a9f2-26b631894dc3",
+								"exec": [
+									"if (responseCode.code === 204)",
+									"{",
+									"    console.log(\"Domain 'alias.\" + postman.getEnvironmentVariable(\"domain\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"Domain 'alias.\" + postman.getEnvironmentVariable(\"domain\") + \"' DOES NOT exist\");",
+									"}",
+									"",
+									"pm.test(\"Status code\", function () {",
+									"  pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/alias.{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"alias.{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - get list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "face5061-5bfe-48ea-ad9f-cf62e0dfa6a4",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - set domain2 as alias to domain1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c350cf48-388e-4c5f-a786-341d8ad96696",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/{{domain}}/aliases/alias.{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"{{domain}}",
+								"aliases",
+								"alias.{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - set domain localhost as alias to domain1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b649de23-43e8-40a2-91c2-6cfa43e744ae",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/{{domain}}/aliases/localhost",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"{{domain}}",
+								"aliases",
+								"localhost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - get aliases of domain1 (main domain)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "83908487-087c-404c-b143-4f5107e99755",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"source is set\"] = jsonData[0].source !== undefined;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/{{domain}}/aliases",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"{{domain}}",
+								"aliases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Domain - delete domain",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "90e12325-0393-4e0d-9033-00ff306070aa",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "087e41b9-3218-4649-85ce-75f392959972",
+								"exec": [
+									"tests[\"Expected status code\"] = responseCode.code === 204;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/domains/alias.james.local",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"domains",
+								"alias.james.local"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User API",
+			"item": [
+				{
+					"name": "Create user with username1 (or update password if exists)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7662b38f-a234-4084-a414-d3f88ab9ce05",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d44b0741-0d80-4145-ae34-678899cd9f7a",
+								"exec": [
+									"tests[\"Correct status code\"] = responseCode.code === 204;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\":\"{{username1}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username1}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username1}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user with username2 (or update password if exists)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0d46ba8e-f91f-4ddb-8515-a2be519cce6d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9234ef67-c435-4237-8297-6ff3718fab35",
+								"exec": [
+									"tests[\"Correct status code\"] = responseCode.code === 204;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\":\"{{username2}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username2}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username2}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user with username3 (or update password if exists)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "833fdd65-c672-41c6-8937-59731ac629b4",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4ad3d81-b380-4224-8142-873a9fd5565a",
+								"exec": [
+									"tests[\"Correct status code\"] = responseCode.code === 204;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\":\"{{username3}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username3}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username3}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if username1 exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67eb150b-433b-4460-9ca2-eec2e901a554",
+								"exec": [
+									"if (responseCode.code === 200)",
+									"{",
+									"    console.log(\"User '\" + postman.getEnvironmentVariable(\"username1\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 400) {",
+									"",
+									"     console.log(\"Username '\" + postman.getEnvironmentVariable(\"username1\") + \"' IS INVALID\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"User '\" + postman.getEnvironmentVariable(\"username1\") + \"' DOES NOT exist\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username1}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username1}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if username2 exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6bea6c4-ac89-49cd-909d-63d84809d06b",
+								"exec": [
+									"if (responseCode.code === 200)",
+									"{",
+									"    console.log(\"User '\" + postman.getEnvironmentVariable(\"username2\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 400) {",
+									"",
+									"     console.log(\"Username '\" + postman.getEnvironmentVariable(\"username2\") + \"' IS INVALID\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"User '\" + postman.getEnvironmentVariable(\"username2\") + \"' DOES NOT exist\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username2}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username2}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if username3 exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0915d04d-fd13-450b-bc4e-300870263eae",
+								"exec": [
+									"if (responseCode.code === 200)",
+									"{",
+									"    console.log(\"User '\" + postman.getEnvironmentVariable(\"username3\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 400) {",
+									"",
+									"     console.log(\"Username '\" + postman.getEnvironmentVariable(\"username3\") + \"' IS INVALID\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"User '\" + postman.getEnvironmentVariable(\"username3\") + \"' DOES NOT exist\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username3}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username3}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2aad8caa-6645-4a49-803b-4fe2197c47cd",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/users",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ge user1 allowed From Headers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "270f01d8-c4f3-4911-8934-48d35d422328",
+								"exec": [
+									"if (responseCode.code === 204)",
+									"{",
+									"    console.log(\"User '\" + postman.getEnvironmentVariable(\"username\") + \"' exists\");",
+									"}",
+									"else if (responseCode.code === 400) {",
+									"",
+									"     console.log(\"Username '\" + postman.getEnvironmentVariable(\"username\") + \"' IS INVALID\");",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"",
+									"     console.log(\"User '\" + postman.getEnvironmentVariable(\"username\") + \"' DOES NOT exist\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username1}}%40{{domain}}/allowedFromHeaders",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username1}}%40{{domain}}",
+								"allowedFromHeaders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "733c8ce0-c6c7-49fb-843d-7a6ed98b2781",
+								"exec": [
+									"if (responseCode.code === 204) {",
+									"    console.log(\"User '\" + postman.getEnvironmentVariable(\"username1\") + \"' (if it existed) was successfully deleted\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "99ff55da-a6df-48ec-a5db-b9fcb7c47d2f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\":\"passwordToBeUsed\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jamesApiUrl}}/users/{{username1}}%40{{domain}}",
+							"host": [
+								"{{jamesApiUrl}}"
+							],
+							"path": [
+								"users",
+								"{{username1}}%40{{domain}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "jmap-draft",
+			"item": [
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "Initiate authentication request for username1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7e8377c9-63be-423b-947f-638ac7a6a61b",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username1.continuationToken\", jsonData.continuationToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"{{username1}}@{{domain}}\",\"deviceName\":\"Postman\",\"clientName\":\"Postman Client\",\"clientVersion\":\"7.33.1\"}\r\n"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Complete authentication for username1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3ccbb447-7012-45c2-a2ef-9e41b87c2342",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username1.accessToken\", jsonData.accessToken);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true,
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"token\":\"{{username1.continuationToken}}\",\"method\":\"password\",\"password\":\"{{username1}}\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Initiate authentication request for username2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7d66e41a-d074-4518-ade5-305b41afbba8",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username2.continuationToken\", jsonData.continuationToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true,
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"{{username2}}@{{domain}}\",\"deviceName\":\"Postman\",\"clientName\":\"Postman Client\",\"clientVersion\":\"7.33.1\"}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Complete authentication for username2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a9bf8ba-aa4d-4729-8143-9d212fd96836",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username2.accessToken\", jsonData.accessToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"token\":\"{{username2.continuationToken}}\",\"method\":\"password\",\"password\":\"{{username2}}\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Initiate authentication request for username3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c204e99e-3cd6-45a6-af6d-956c54704de1",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username3.continuationToken\", jsonData.continuationToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"{{username3}}@{{domain}}\",\"deviceName\":\"Postman\",\"clientName\":\"Postman Client\",\"clientVersion\":\"7.33.1\"}\r\n"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Complete authentication for username3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32f85509-7a23-4d6e-bf62-dd0010580936",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"username3.accessToken\", jsonData.accessToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"token\":\"{{username3.continuationToken}}\",\"method\":\"password\",\"password\":\"{{username3}}\"}"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/authentication",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"authentication"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Mailbox API",
+					"item": [
+						{
+							"name": "Get username1 mailboxes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0aa39d7a-4bea-4780-a36a-fddebd16c713",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username1.mailboxId:\" + jsonData[0][1].list[0].id)",
+											"",
+											"pm.collectionVariables.set(\"username1.mailboxId\", jsonData[0][1].list[0].id);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username1.accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMailboxes\",{},\"#0\"]]"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get username2 mailboxes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ba77ced-8cb7-4f64-8858-1fc846783eb5",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username2.mailboxId:\" + jsonData[0][1].list[0].id)",
+											"",
+											"pm.collectionVariables.set(\"username2.mailboxId\", jsonData[0][1].list[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username2.accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMailboxes\",{},\"#0\"]]"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get username3 mailboxes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cfafbde5-7770-44db-955b-bd398b11dc04",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username3.mailboxId:\" + jsonData[0][1].list[0].id)",
+											"",
+											"pm.collectionVariables.set(\"username3.mailboxId\", jsonData[0][1].list[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username3.accessToken}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=UTF-8",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMailboxes\",{},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "MessageList API",
+					"item": [
+						{
+							"name": "Request username1 message list for INBOX Mailbox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c4372b5-e485-4bf5-8b80-8b8cfaa1a52d",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username1.firstMessageId:\" + jsonData[0][1].messageIds[0])",
+											"pm.collectionVariables.set(\"username1.firstMessageId\", jsonData[0][1].messageIds[0]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username1.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username1.mailboxId}}\"]}},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request username2 message list for INBOX Mailbox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "44af8d1a-8132-4625-9e65-b52e6f492a8e",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username2.firstMessageId:\" + jsonData[0][1].messageIds[0])",
+											"pm.collectionVariables.set(\"username2.firstMessageId\", jsonData[0][1].messageIds[0]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username2.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username2.mailboxId}}\"]}},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request username3 message list for INBOX Mailbox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "169af8e2-2917-442f-94e7-aff001d9fae1",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"console.log(\"username3.firstMessageId:\" + jsonData[0][1].messageIds[0])",
+											"pm.collectionVariables.set(\"username3.firstMessageId\", jsonData[0][1].messageIds[0]);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username3.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username3.mailboxId}}\"]}},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Message API",
+					"item": [
+						{
+							"name": "Request username1 first message from inbox",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username1.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessages\",{\"ids\":[\"{{username1.firstMessageId}}\"]},\"#0\"]]"
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request username2 first message from inbox",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username2.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessages\",{\"ids\":[\"{{username2.firstMessageId}}\"]},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Request username3 first message from inbox",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{username3.accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[[\"getMessages\",{\"ids\":[\"{{username3.firstMessageId}}\"]},\"#0\"]]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{jmapApiHost}}/jmap",
+									"host": [
+										"{{jmapApiHost}}"
+									],
+									"path": [
+										"jmap"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "eb0c2f14-8247-4889-acab-35a0a79d5ff5",
+			"key": "variable_key",
+			"value": "variable_value"
+		},
+		{
+			"id": "94bffcc5-dd79-4a51-af11-86ffc354975d",
+			"key": "username1.mailboxId",
+			"value": "79de51f0-1fef-11eb-ba78-a300e6439e54"
+		},
+		{
+			"id": "6d06eca5-48a5-47a2-b00b-99768b27f80b",
+			"key": "username3.mailboxId",
+			"value": "fa9b6fd0-2008-11eb-b1ef-150ba3109569"
+		},
+		{
+			"id": "f2883f26-b6b8-4690-a42a-314f6cfb03a8",
+			"key": "username2.mailboxId",
+			"value": "5183e770-2f20-11eb-9257-1b4c2f0786d0"
+		},
+		{
+			"id": "b7857408-a1f3-4f2a-b6b2-6763a1d976ff",
+			"key": "username2.continuationToken",
+			"value": "egbert@mail.example.com_2020-12-01T12:49:59.488634Z_SLouslOJ/t4LchOlinq5cJT5chTOxXKYIS9y3HvxUaa7fiX20reaV0NTQUO5cpdNLBsncUHyg5msJgblrCvspfTBm9Tv/DwvfFrzEp2+TJ6/yBhCGTJHi26XKgVliMQBgVISElMTgFs3L8V4DfU8YutlfotxRHdyumEF57/FIrjMZLxGcuaUqxfeAaUMQJ0dayY7XFU7gfwlQkmxcTcpKOtucYd96Kezsg1fujWCeQTYCTbHQF4Vb0gcWs/yQ0Qa2lu/pY1iBY2pe+YxA2JRm76N/aMeJa/WF5r7eaOsvK2uCcMYTLkt53AWevGWJARth64TCYJXZFqD/5lulBRJxw=="
+		},
+		{
+			"id": "03ce3c6d-340b-43f2-9cba-2c41e5cf2109",
+			"key": "username2.accessToken",
+			"value": "9dc5d098-f6c7-4087-b88f-656f5719b901"
+		},
+		{
+			"id": "e504dccb-ad5d-4288-98ee-d15b7fa82901",
+			"key": "username3.continuationToken",
+			"value": "yoko@mail.example.com_2020-12-01T11:04:13.559389Z_VoHpMeqlBilijqaQu/E9S3XuA68jKOQDIs9ypySCtTAGZe2TTsy7kbOCD2gmefjuOU7z0zXsUpseG+xdDchU51u8zhtidpgeVJLqPlvAMwNB9FEFJIlj0XqHSA5/iOM1ONlrlG01wRmipoy/uEi4efJ3T9CFGK9cYMdFTIIFv4MPehPV8TTqvzHOf+eV2bXc++yfwUDb1nUA7Vy/27AmSCt6lj9givfKjctfs5lJvQ7B/spjFa+kW4r5amqSpAAshny97PPVlMiK1rFBZ6PDWvzqxcQOlzlhE52vq4sFz8PsiYn/c3h7Q5c6cyVeaYcV9ZnEoYWwaVw6WuxzKFq5LQ=="
+		},
+		{
+			"id": "f7f14432-e1f2-4131-a98f-b7136e8bdf84",
+			"key": "username3.accessToken",
+			"value": "879e7b5f-abe8-4b5a-9b0a-c14f8c268c2d"
+		},
+		{
+			"id": "a2e2863a-457c-435e-acd3-9829700505d5",
+			"key": "username1.accessToken",
+			"value": "849fb253-6476-44a6-8989-140af0206bbb"
+		},
+		{
+			"id": "5cfbd566-b8fc-4a83-9bdc-1ec5d6f14828",
+			"key": "username1.continuationToken",
+			"value": "shelly@mail.example.com_2020-12-01T12:49:52.913919Z_AvGxLyX7dhnKolpL8TOd7xwOF4oFRa8WYYdThQN0Tga5hLadEtdwA385S5o6x5Fpi/pkwaIvKeEuYVeLI8TqybClPBwXjvEfI33ryHs9/ryg+qQSrJ8+SD/3KVLXquJUlAqIDPFvK2YkB3xOuW5G+3QoiQoI/ohSMeswchB3iXXLV4cuR1S7VsjWLnV2T0Q3j9hxLjHNdhRqPIgHXz4qfKMSdtc8GxanNJrEIa/dT/yHwtmHTbkNhCz6/aiTWDhzcfAtvuUMibkKcqpXPQS6G9uM74tl6o2SrSTgvf39CpS/DeMUBEne4kdacbj5HrNpH84Q0VMg6X1gFyLfxx+ElA=="
+		},
+		{
+			"id": "74b6b62a-3311-47fc-96f5-cd1dddb14c39",
+			"key": "username1.messageIds",
+			"value": [
+				"562975f0-2012-11eb-b7eb-bd653d05c5ab",
+				"23918950-25b9-11eb-84fb-1b89e83a770c",
+				"29e4c8c0-2d5d-11eb-9fa3-01c2c9eb535d"
+			]
+		},
+		{
+			"id": "4c3386d0-c635-4b9f-872a-643765d2ab31",
+			"key": "username1.firstMessageId",
+			"value": "562975f0-2012-11eb-b7eb-bd653d05c5ab"
+		},
+		{
+			"id": "ab99bb5f-a46f-429d-b622-c39264304332",
+			"key": "username2.firstMessageId",
+			"value": null
+		},
+		{
+			"id": "4b7ca38b-20a9-4607-8190-6f63db1ca895",
+			"key": "username3.firstMessageId",
+			"value": "1112a6e0-2011-11eb-8045-f103c1bf59ee"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
