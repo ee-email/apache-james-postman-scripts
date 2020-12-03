@@ -11,3 +11,4 @@ Change values in environment to mach your configuration:
 
 * jamesApiUrl - management API private endpoint (configure it from webadmin.properties of James)
 * jmapApiHost - public endpoint
+* jwtBearerToken - copy your JWT token here (if you use JWT authentication)

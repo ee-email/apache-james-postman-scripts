@@ -790,10 +790,10 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "jmap-draft",
+			"name": "JMAP API",
 			"item": [
 				{
-					"name": "Authentication",
+					"name": "Password authentication for JMAP",
 					"item": [
 						{
 							"name": "Initiate authentication request for username1",
@@ -855,7 +855,7 @@
 										"id": "3ccbb447-7012-45c2-a2ef-9e41b87c2342",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"username1.accessToken\", jsonData.accessToken);\r",
+											"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);\r",
 											"\r",
 											""
 										],
@@ -903,628 +903,511 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "Initiate authentication request for username2",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "7d66e41a-d074-4518-ade5-305b41afbba8",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"username2.continuationToken\", jsonData.continuationToken);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disabledSystemHeaders": {
-									"accept": true,
-									"content-type": true
-								}
-							},
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"username\":\"{{username2}}@{{domain}}\",\"deviceName\":\"Postman\",\"clientName\":\"Postman Client\",\"clientVersion\":\"7.33.1\"}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/authentication",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"authentication"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Complete authentication for username2",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "9a9bf8ba-aa4d-4729-8143-9d212fd96836",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"username2.accessToken\", jsonData.accessToken);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"token\":\"{{username2.continuationToken}}\",\"method\":\"password\",\"password\":\"{{username2}}\"}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/authentication",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"authentication"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Initiate authentication request for username3",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "c204e99e-3cd6-45a6-af6d-956c54704de1",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"username3.continuationToken\", jsonData.continuationToken);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"username\":\"{{username3}}@{{domain}}\",\"deviceName\":\"Postman\",\"clientName\":\"Postman Client\",\"clientVersion\":\"7.33.1\"}\r\n"
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/authentication",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"authentication"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Complete authentication for username3",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "32f85509-7a23-4d6e-bf62-dd0010580936",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);\r",
-											"pm.collectionVariables.set(\"username3.accessToken\", jsonData.accessToken);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"token\":\"{{username3.continuationToken}}\",\"method\":\"password\",\"password\":\"{{username3}}\"}"
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/authentication",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"authentication"
-									]
-								}
-							},
-							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Mailbox API",
+					"name": "jmap-draft (discouraged)",
 					"item": [
 						{
-							"name": "Get username1 mailboxes",
-							"event": [
+							"name": "Mailbox API",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"id": "0aa39d7a-4bea-4780-a36a-fddebd16c713",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username1.mailboxId:\" + jsonData[0][1].list[0].id)",
-											"",
-											"pm.collectionVariables.set(\"username1.mailboxId\", jsonData[0][1].list[0].id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disabledSystemHeaders": {
-									"accept": true
-								}
-							},
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username1.accessToken}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMailboxes\",{},\"#0\"]]"
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get username2 mailboxes",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "9ba77ced-8cb7-4f64-8858-1fc846783eb5",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username2.mailboxId:\" + jsonData[0][1].list[0].id)",
-											"",
-											"pm.collectionVariables.set(\"username2.mailboxId\", jsonData[0][1].list[0].id);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username2.accessToken}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMailboxes\",{},\"#0\"]]"
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get username3 mailboxes",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "cfafbde5-7770-44db-955b-bd398b11dc04",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username3.mailboxId:\" + jsonData[0][1].list[0].id)",
-											"",
-											"pm.collectionVariables.set(\"username3.mailboxId\", jsonData[0][1].list[0].id);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username3.accessToken}}",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json; charset=UTF-8",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMailboxes\",{},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
+									"name": "Get mailboxes",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0aa39d7a-4bea-4780-a36a-fddebd16c713",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"console.log(\"username1.mailboxId:\" + jsonData[0][1].list[0].id)",
+													"",
+													"pm.collectionVariables.set(\"username1.mailboxId\", jsonData[0][1].list[0].id);",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
 									],
-									"path": [
-										"jmap"
-									]
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json; charset=UTF-8",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[[\"getMailboxes\",{},\"#0\"]]"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "MessageList API",
+							"item": [
+								{
+									"name": "Request username1 message list for INBOX Mailbox",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9c4372b5-e485-4bf5-8b80-8b8cfaa1a52d",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"console.log(\"username1.firstMessageId:\" + jsonData[0][1].messageIds[0])",
+													"pm.collectionVariables.set(\"username1.firstMessageId\", jsonData[0][1].messageIds[0]);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username1.mailboxId}}\"]}},\"#0\"]]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Message API",
+							"item": [
+								{
+									"name": "Request username1 first message from inbox",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{username1.accessToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[[\"getMessages\",{\"ids\":[\"{{username1.firstMessageId}}\"]},\"#0\"]]"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
 						}
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "MessageList API",
+					"name": "jmap-rfc-8621",
 					"item": [
 						{
-							"name": "Request username1 message list for INBOX Mailbox",
-							"event": [
+							"name": "Start session using JWT token",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"id": "9c4372b5-e485-4bf5-8b80-8b8cfaa1a52d",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username1.firstMessageId:\" + jsonData[0][1].messageIds[0])",
-											"pm.collectionVariables.set(\"username1.firstMessageId\", jsonData[0][1].messageIds[0]);",
-											""
+									"name": "Load capabilities and get account id (using JWT token)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b5f2a6ca-26a4-4613-8415-d18a632953a6",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"console.log(\"accountId:\" + jsonData[\"primaryAccounts\"][\"urn:ietf:params:jmap:mail\"])",
+													"",
+													"pm.collectionVariables.set(\"accountId\", jsonData[\"primaryAccounts\"][\"urn:ietf:params:jmap:mail\"]);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9e468e07-b2f8-484a-9cbe-7d0c5dfb6186",
+												"exec": [
+													"// copy jwtBearerToken into accessToken variable",
+													"pm.collectionVariables.set(\"accessToken\", pm.environment.get(\"jwtBearerToken\"));",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true,
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json; charset=UTF-8"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json; jmapVersion=rfc-8621"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
 										],
-										"type": "text/javascript"
-									}
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/.well-known/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												".well-known",
+												"jmap"
+											]
+										}
+									},
+									"response": []
 								}
 							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username1.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username1.mailboxId}}\"]}},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
 						},
 						{
-							"name": "Request username2 message list for INBOX Mailbox",
-							"event": [
+							"name": "Mailbox API",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"id": "44af8d1a-8132-4625-9e65-b52e6f492a8e",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username2.firstMessageId:\" + jsonData[0][1].messageIds[0])",
-											"pm.collectionVariables.set(\"username2.firstMessageId\", jsonData[0][1].messageIds[0]);",
-											""
+									"name": "Get mailboxes of an account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7b6ae6b9-a17c-418c-a8c6-14995de774e3",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"var inboxId = jsonData[\"methodResponses\"][0][1][\"list\"][0][\"id\"];",
+													"",
+													"console.log(\"inbox id:\" + inboxId)",
+													"",
+													"pm.collectionVariables.set(\"inboxId\", inboxId);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json; charset=UTF-8"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json; jmapVersion=rfc-8621"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
 										],
-										"type": "text/javascript"
-									}
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"using\": [ \"urn:ietf:params:jmap:core\", \"urn:ietf:params:jmap:mail\" ],\n\"methodCalls\": [\n[ \"Mailbox/get\", {\"accountId\":\"{{accountId}}\", \"ids\": null}, \"0\"]\n]\n}"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get inbox mailbox of an account",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "45724415-f683-41b1-a56d-db18867c32ad",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"var secondMessageId = jsonData[\"methodResponses\"][0][1][\"ids\"][1]",
+													"",
+													"console.log(\"messageId:\" + secondMessageId)",
+													"",
+													"pm.collectionVariables.set(\"messageId\", secondMessageId);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json; charset=UTF-8"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json; jmapVersion=rfc-8621"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"using\": [ \"urn:ietf:params:jmap:core\", \"urn:ietf:params:jmap:mail\" ],\n\"methodCalls\": [\n[ \"Email/query\", {\"accountId\":\"{{accountId}}\",  \"filter\": { \"inMailbox\": \"79de51f0-1fef-11eb-ba78-a300e6439e54\" }}, \"0\"]\n]\n}"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get email message by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "dbfbd403-3e06-44b9-b15b-5dcea2fe72c8",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"var attachmentId = jsonData[\"methodResponses\"][0][1][\"list\"][0][\"attachments\"][0][\"blobId\"];",
+													"",
+													"console.log(\"attachmentId:\" + attachmentId)",
+													"",
+													"pm.collectionVariables.set(\"attachmentId\", attachmentId);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json; charset=UTF-8"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json; jmapVersion=rfc-8621"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"using\": [ \"urn:ietf:params:jmap:core\", \"urn:ietf:params:jmap:mail\" ],\n\"methodCalls\": [\n[ \"Email/get\", {\"accountId\":\"{{accountId}}\",  \"ids\": [\"{{messageId}}\"]}, \"0\"]\n]\n}"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get email attachment by id - returns unknownMethod",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7ab75e62-795c-4c24-ade6-ec3b921d4cbd",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json; charset=UTF-8"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json; jmapVersion=rfc-8621"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{accessToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"using\": [ \"urn:ietf:params:jmap:core\", \"urn:ietf:params:jmap:mail\" ],\n\"methodCalls\": [\n[ \"Email/get\", {\"accountId\":\"{{accountId}}\",  \"ids\": [\"{{attachmentId}}\"]}, \"0\"]\n]\n}"
+										},
+										"url": {
+											"raw": "{{jmapApiHost}}/jmap",
+											"host": [
+												"{{jmapApiHost}}"
+											],
+											"path": [
+												"jmap"
+											]
+										}
+									},
+									"response": []
 								}
 							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username2.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username2.mailboxId}}\"]}},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Request username3 message list for INBOX Mailbox",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "169af8e2-2917-442f-94e7-aff001d9fae1",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"",
-											"console.log(\"username3.firstMessageId:\" + jsonData[0][1].messageIds[0])",
-											"pm.collectionVariables.set(\"username3.firstMessageId\", jsonData[0][1].messageIds[0]);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username3.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessageList\",{\"filter\":{\"inMailboxes\":[\"{{username3.mailboxId}}\"]}},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Message API",
-					"item": [
-						{
-							"name": "Request username1 first message from inbox",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username1.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessages\",{\"ids\":[\"{{username1.firstMessageId}}\"]},\"#0\"]]"
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Request username2 first message from inbox",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username2.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessages\",{\"ids\":[\"{{username2.firstMessageId}}\"]},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Request username3 first message from inbox",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{username3.accessToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[[\"getMessages\",{\"ids\":[\"{{username3.firstMessageId}}\"]},\"#0\"]]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{jmapApiHost}}/jmap",
-									"host": [
-										"{{jmapApiHost}}"
-									],
-									"path": [
-										"jmap"
-									]
-								}
-							},
-							"response": []
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -1534,80 +1417,26 @@
 			"protocolProfileBehavior": {}
 		}
 	],
-	"variable": [
+	"event": [
 		{
-			"id": "eb0c2f14-8247-4889-acab-35a0a79d5ff5",
-			"key": "variable_key",
-			"value": "variable_value"
+			"listen": "prerequest",
+			"script": {
+				"id": "3d1f0e2c-8cd7-4625-84f5-f05af0be9c20",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"id": "94bffcc5-dd79-4a51-af11-86ffc354975d",
-			"key": "username1.mailboxId",
-			"value": "79de51f0-1fef-11eb-ba78-a300e6439e54"
-		},
-		{
-			"id": "6d06eca5-48a5-47a2-b00b-99768b27f80b",
-			"key": "username3.mailboxId",
-			"value": "fa9b6fd0-2008-11eb-b1ef-150ba3109569"
-		},
-		{
-			"id": "f2883f26-b6b8-4690-a42a-314f6cfb03a8",
-			"key": "username2.mailboxId",
-			"value": "5183e770-2f20-11eb-9257-1b4c2f0786d0"
-		},
-		{
-			"id": "b7857408-a1f3-4f2a-b6b2-6763a1d976ff",
-			"key": "username2.continuationToken",
-			"value": "egbert@mail.example.com_2020-12-01T12:49:59.488634Z_SLouslOJ/t4LchOlinq5cJT5chTOxXKYIS9y3HvxUaa7fiX20reaV0NTQUO5cpdNLBsncUHyg5msJgblrCvspfTBm9Tv/DwvfFrzEp2+TJ6/yBhCGTJHi26XKgVliMQBgVISElMTgFs3L8V4DfU8YutlfotxRHdyumEF57/FIrjMZLxGcuaUqxfeAaUMQJ0dayY7XFU7gfwlQkmxcTcpKOtucYd96Kezsg1fujWCeQTYCTbHQF4Vb0gcWs/yQ0Qa2lu/pY1iBY2pe+YxA2JRm76N/aMeJa/WF5r7eaOsvK2uCcMYTLkt53AWevGWJARth64TCYJXZFqD/5lulBRJxw=="
-		},
-		{
-			"id": "03ce3c6d-340b-43f2-9cba-2c41e5cf2109",
-			"key": "username2.accessToken",
-			"value": "9dc5d098-f6c7-4087-b88f-656f5719b901"
-		},
-		{
-			"id": "e504dccb-ad5d-4288-98ee-d15b7fa82901",
-			"key": "username3.continuationToken",
-			"value": "yoko@mail.example.com_2020-12-01T11:04:13.559389Z_VoHpMeqlBilijqaQu/E9S3XuA68jKOQDIs9ypySCtTAGZe2TTsy7kbOCD2gmefjuOU7z0zXsUpseG+xdDchU51u8zhtidpgeVJLqPlvAMwNB9FEFJIlj0XqHSA5/iOM1ONlrlG01wRmipoy/uEi4efJ3T9CFGK9cYMdFTIIFv4MPehPV8TTqvzHOf+eV2bXc++yfwUDb1nUA7Vy/27AmSCt6lj9givfKjctfs5lJvQ7B/spjFa+kW4r5amqSpAAshny97PPVlMiK1rFBZ6PDWvzqxcQOlzlhE52vq4sFz8PsiYn/c3h7Q5c6cyVeaYcV9ZnEoYWwaVw6WuxzKFq5LQ=="
-		},
-		{
-			"id": "f7f14432-e1f2-4131-a98f-b7136e8bdf84",
-			"key": "username3.accessToken",
-			"value": "879e7b5f-abe8-4b5a-9b0a-c14f8c268c2d"
-		},
-		{
-			"id": "a2e2863a-457c-435e-acd3-9829700505d5",
-			"key": "username1.accessToken",
-			"value": "849fb253-6476-44a6-8989-140af0206bbb"
-		},
-		{
-			"id": "5cfbd566-b8fc-4a83-9bdc-1ec5d6f14828",
-			"key": "username1.continuationToken",
-			"value": "shelly@mail.example.com_2020-12-01T12:49:52.913919Z_AvGxLyX7dhnKolpL8TOd7xwOF4oFRa8WYYdThQN0Tga5hLadEtdwA385S5o6x5Fpi/pkwaIvKeEuYVeLI8TqybClPBwXjvEfI33ryHs9/ryg+qQSrJ8+SD/3KVLXquJUlAqIDPFvK2YkB3xOuW5G+3QoiQoI/ohSMeswchB3iXXLV4cuR1S7VsjWLnV2T0Q3j9hxLjHNdhRqPIgHXz4qfKMSdtc8GxanNJrEIa/dT/yHwtmHTbkNhCz6/aiTWDhzcfAtvuUMibkKcqpXPQS6G9uM74tl6o2SrSTgvf39CpS/DeMUBEne4kdacbj5HrNpH84Q0VMg6X1gFyLfxx+ElA=="
-		},
-		{
-			"id": "74b6b62a-3311-47fc-96f5-cd1dddb14c39",
-			"key": "username1.messageIds",
-			"value": [
-				"562975f0-2012-11eb-b7eb-bd653d05c5ab",
-				"23918950-25b9-11eb-84fb-1b89e83a770c",
-				"29e4c8c0-2d5d-11eb-9fa3-01c2c9eb535d"
-			]
-		},
-		{
-			"id": "4c3386d0-c635-4b9f-872a-643765d2ab31",
-			"key": "username1.firstMessageId",
-			"value": "562975f0-2012-11eb-b7eb-bd653d05c5ab"
-		},
-		{
-			"id": "ab99bb5f-a46f-429d-b622-c39264304332",
-			"key": "username2.firstMessageId",
-			"value": null
-		},
-		{
-			"id": "4b7ca38b-20a9-4607-8190-6f63db1ca895",
-			"key": "username3.firstMessageId",
-			"value": "1112a6e0-2011-11eb-8045-f103c1bf59ee"
+			"listen": "test",
+			"script": {
+				"id": "47f6fc14-a4f1-4ece-a3e1-233979e9be6f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
